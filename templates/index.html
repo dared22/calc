@@ -20,32 +20,36 @@
         h1 {
             text-align: center;
             color: #0056b3;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         form {
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            max-width: 350px;
             width: 100%;
             margin: 20px auto;
         }
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: bold;
+            font-size: 14px;
         }
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         input[type="number"],
         select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 20px;
+            width: calc(100% - 10px);
+            padding: 8px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            font-size: 14px;
         }
         input[type="submit"] {
             width: 100%;
@@ -55,7 +59,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
         input[type="submit"]:hover {
             background-color: #004494;
@@ -63,10 +67,16 @@
         h2 {
             text-align: center;
             color: #0056b3;
-            margin-top: 20px;
+            margin-top: 10px;
+            font-size: 18px;
         }
-        #calculatedPrice {
+        #calculatedPrice, #result1, #distCost, #distance {
             font-weight: bold;
+        }
+        #result1Container, #distCostContainer, #distContainer {
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -76,33 +86,42 @@
         <h1>Priskalkulator for stubbefresing</h1>
         <form id="priceForm">
             <label for="name">Fornavn:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input type="text" id="name" name="name" required>
 
             <label for="name">Etternavn:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input type="text" id="name" name="name" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" name="email" required>
 
             <label for="phone">Telefon:</label>
-            <input type="tel" id="phone" name="phone" required><br><br>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Gateadresse:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="address">Postnummer:</label>
+            <input type="text" id="postnr" name="postnr" required>
+            <div id="distCostContainer">Transportkostnad: <span id="distCost">0</span> Kr</div>
+            <div id="distContainer">Kjørelengde (fra Haugeplassen 8): <span id="distance">0</span></div>
 
             <label for="diameter">Diameter (Cm):</label>
             <select id="diameter" name="diameter" required>
                 {% for diameter in diameters %}
                 <option value="{{ diameter }}">{{ diameter }}</option>
                 {% endfor %}
-            </select><br><br>
+            </select>
 
             <label for="num_stumps">Antall stubber:</label>
-            <input type="number" id="num_stumps" name="num_stumps" required><br><br>
+            <input type="number" id="num_stumps" name="num_stumps" required>
 
-            <label for="difficulty">Tilkomst :</label>
+            <label for="difficulty">Tilkomst:</label>
             <select id="difficulty" name="difficulty" required>
                 {% for difficulty in diffclts %}
                 <option value="{{ difficulty }}">{{ difficulty }}</option>
                 {% endfor %}
-            </select><br><br>
+            </select>
+            <div id="result1Container">Stubbefresing kost totalt: <span id="result1">0</span> Kr</div>
         </form>
 
         <h2>Estimert totalpris: <span id="calculatedPrice">0</span> Kr</h2>
@@ -115,12 +134,16 @@
                     url: "{{ url_for('calculate_price_ajax') }}",
                     type: "POST",
                     data: {
+                        address: $("#address").val(),
                         diameter: $("#diameter").val(),
                         num_stumps: $("#num_stumps").val(),
                         difficulty: $("#difficulty").val()
                     },
                     success: function(data) {
                         $("#calculatedPrice").text(data.price);
+                        $("#result1").text(data.result_1);
+                        $("#distCost").text(data.dist_cost);
+                        $("#distance").text(data.distance);
                     }
                 });
             }
