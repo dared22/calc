@@ -73,28 +73,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Stump Grinding Price Calculator</h1>
+        <h1>Priskalkulator for stubbefresing</h1>
         <form id="priceForm">
-            <label for="name">Name:</label>
+            <label for="name">Fornavn:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="name">Etternavn:</label>
             <input type="text" id="name" name="name" required><br><br>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
 
-            <label for="phone">Phone Number:</label>
+            <label for="phone">Telefon:</label>
             <input type="tel" id="phone" name="phone" required><br><br>
 
-            <label for="diameter">Diameter (Cm):</label>
+            <label for="diameter">Diameter(Cm):</label>
             <select id="diameter" name="diameter" required>
                 {% for diameter in diameters %}
                 <option value="{{ diameter }}">{{ diameter }}</option>
                 {% endfor %}
             </select><br><br>
 
-            <label for="num_stumps">Number of Stumps:</label>
+            <label for="num_stumps">Antall stubber:</label>
             <input type="number" id="num_stumps" name="num_stumps" required><br><br>
 
-            <label for="difficulty">Difficulty :</label>
+            <label for="difficulty">Tilkomst :</label>
             <select id="difficulty" name="difficulty" required>
                 {% for difficulty in diffclts %}
                 <option value="{{ difficulty }}">{{ difficulty }}</option>
@@ -102,7 +105,7 @@
             </select><br><br>
         </form>
 
-        <h2>Calculated Price: <span id="calculatedPrice">0</span> Kr</h2>
+        <h2>Totalpris: <span id="calculatedPrice">0</span> Kr</h2>
     </div>
 
     <script>
