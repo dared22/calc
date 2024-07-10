@@ -41,8 +41,8 @@ def calculate_distance(destination, origin=ORIGIN):
 
 def final_dist_cost(destination):
     distance ,distance_val, duration = calculate_distance(destination)
-    if (distance_val/100) > 15:
-        final_cost = (distance_val/100 - 15)*150
+    if (distance_val/1000) > 15:
+        final_cost = (distance_val/1000 - 15)*150
     else:
         final_cost = 0
         
@@ -57,14 +57,10 @@ def index():
 
 @app.route('/calculate', methods=['POST'])
 def calculate_price_ajax():
-    try:
-        dist = request.form['address']
-        d = int(request.form['diameter'])
-        n = int(request.form['num_stumps'])
-        v = request.form['difficulty']
-    except ValueError:
-        return jsonify(error="Invalid input"), 400
-    
+    dist = request.form['address']
+    d = int(request.form['diameter'])
+    n = int(request.form['num_stumps'])
+    v = request.form['difficulty']
     result_1 = calc(d, n, v)
     dist_cost, distance = final_dist_cost(dist)
     result = result_1 + dist_cost
