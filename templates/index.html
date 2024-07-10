@@ -128,31 +128,37 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            function calculatePrice() {
-                $.ajax({
-                    url: "{{ url_for('calculate_price_ajax') }}",
-                    type: "POST",
-                    data: {
-                        address: $("#address").val(),
-                        diameter: $("#diameter").val(),
-                        num_stumps: $("#num_stumps").val(),
-                        difficulty: $("#difficulty").val()
-                    },
-                    success: function(data) {
-                        $("#calculatedPrice").text(data.price);
-                        $("#result1").text(data.result_1);
-                        $("#distCost").text(data.dist_cost);
-                        $("#distance").text(data.distance);
+$(document).ready(function() {
+                function calculatePrice() {
+                    // Check if the num_stumps field is empty
+                    if ($("#num_stumps").val() === "") {
+                        alert("Please enter the number of stumps.");
+                        return;
                     }
-                });
-            }
-
-            $("#priceForm input, #priceForm select").on("input change", calculatePrice);
-
-            // Initial calculation
-            calculatePrice();
-        });
+                
+                    $.ajax({
+                        url: "{{ url_for('calculate_price_ajax') }}",
+                        type: "POST",
+                        data: {
+                            address: $("#address").val(),
+                            diameter: $("#diameter").val(),
+                            num_stumps: $("#num_stumps").val(),
+                            difficulty: $("#difficulty").val()
+                        },
+                        success: function(data) {
+                            $("#calculatedPrice").text(data.price);
+                            $("#result1").text(data.result_1);
+                            $("#distCost").text(data.dist_cost);
+                            $("#distance").text(data.distance);
+                        }
+                    });
+                }
+            
+                $("#priceForm input, #priceForm select").on("input change", calculatePrice);
+            
+                // Initial calculation
+                calculatePrice();
+            });
     </script>
 </body>
 </html>
