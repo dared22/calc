@@ -87,7 +87,7 @@
             <label for="phone">Telefon:</label>
             <input type="tel" id="phone" name="phone" required><br><br>
 
-            <label for="diameter">Diameter(Cm):</label>
+            <label for="diameter">Diameter (Cm):</label>
             <select id="diameter" name="diameter" required>
                 {% for diameter in diameters %}
                 <option value="{{ diameter }}">{{ diameter }}</option>
@@ -105,7 +105,7 @@
             </select><br><br>
         </form>
 
-        <h2>Totalpris: <span id="calculatedPrice">0</span> Kr</h2>
+        <h2>Estimert totalpris: <span id="calculatedPrice">0</span> Kr</h2>
     </div>
 
     <script>
