@@ -57,12 +57,14 @@ def index():
 
 @app.route('/calculate', methods=['POST'])
 def calculate_price_ajax():
-    dist = request.form['address']
-    d = int(request.form['diameter'])
+    adr = request.form['address']
+    post = request.form['postnr']
+    final_adress = adr + ', ' + post
+    diameter = int(request.form['diameter'])
     n = int(request.form['num_stumps'])
-    v = request.form['difficulty']
-    result_1 = calc(d, n, v)
-    dist_cost, distance = final_dist_cost(dist)
+    difficulty = request.form['difficulty']
+    result_1 = calc(diameter, n, difficulty)
+    dist_cost, distance = final_dist_cost(final_adress)
     result = result_1 + dist_cost
 
     return jsonify(price=result, result_1=result_1, dist_cost=dist_cost, distance=distance)

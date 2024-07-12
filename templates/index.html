@@ -100,7 +100,7 @@
             <label for="address">Gateadresse:</label>
             <input type="text" id="address" name="address" required>
 
-            <label for="address">Postnummer:</label>
+            <label for="postnr">Postnummer:</label>
             <input type="text" id="postnr" name="postnr" required>
             <div id="distCostContainer">Transportkostnad: <span id="distCost">0</span> Kr</div>
             <div id="distContainer">Kjørelengde (fra Haugeplassen 8): <span id="distance">0</span></div>
@@ -135,6 +135,7 @@
                     type: "POST",
                     data: {
                         address: $("#address").val(),
+                        postnr: $("#postnr").val(),
                         diameter: $("#diameter").val(),
                         num_stumps: $("#num_stumps").val(),
                         difficulty: $("#difficulty").val()
