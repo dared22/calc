@@ -5,7 +5,7 @@ import googlemaps
 from datetime import datetime
 
 API_KEY = 'AIzaSyD52GY-dsG6mjbXSukZIsmuOxE2w3X80iQ'
-ORIGIN = 'Haugeplassen 8a'
+ORIGIN = 'Tåsenveien 127'
 gmaps = googlemaps.Client(key=API_KEY)
 
 app = Flask(__name__)
@@ -72,3 +72,6 @@ def calculate_price_ajax():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
+#simen@trefg.no
+
