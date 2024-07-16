@@ -102,6 +102,7 @@ def send_email():
 
     Her er informasjonen om din forespørsel:
     Fornavn: {name}
+    Etternavn: {ename}
     Email: {email}
     Telefon: {phone}
     Gateadresse: {address}
@@ -138,7 +139,7 @@ def send_email():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5500))
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
 
 
