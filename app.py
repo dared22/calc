@@ -5,7 +5,7 @@ import googlemaps
 from datetime import datetime
 
 API_KEY = 'AIzaSyD52GY-dsG6mjbXSukZIsmuOxE2w3X80iQ'
-ORIGIN = 'Tåsenveien 127'
+ORIGIN = 'Tåsenveien 127, 0880'
 gmaps = googlemaps.Client(key=API_KEY)
 
 app = Flask(__name__)
@@ -41,11 +41,7 @@ def calculate_distance(destination, origin=ORIGIN):
 
 def final_dist_cost(destination):
     distance ,distance_val, duration = calculate_distance(destination)
-    if (distance_val/1000) > 15:
-        final_cost = (distance_val/1000 - 15)*150
-    else:
-        final_cost = 0
-        
+    final_cost = (distance_val/1000) * 100     
     return final_cost, distance
 
 
