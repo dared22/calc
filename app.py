@@ -1,69 +1,30 @@
 from flask import Flask, request, render_template, jsonify
-import pickle
 import os
-import googlemaps
-from datetime import datetime
 import smtplib
+from calc import Calculator
 
 EMAIL_PROVIDER_SMTP_ADDRESS = "smtp.gmail.com"
-MY_EMAIL = 'pahasss131313@gmail.com'
-MY_PASSWORD = 'gnuqlzfvpsuzwfcn'
-
-API_KEY = 'AIzaSyD52GY-dsG6mjbXSukZIsmuOxE2w3X80iQ'
-ORIGIN = 'Tåsenveien 127, 0880'
-gmaps = googlemaps.Client(key=API_KEY)
-
-vanskelighet_dict = {"Enkel": 0, "Vanskelig": 0.7, "Trapp": 0.7, "Bratt": 0.7}
+MY_EMAIL = 'p.13.gulin@gmail.com'
+MY_PASSWORD = 'nycr bvgj ikxd zekc'
 
 app = Flask(__name__)
+calculator = Calculator()
 
-# prisliste
-with open('prisliste_data.pkl', 'rb') as f:
-    prisliste_dict = pickle.load(f)
-
-#kalkulerings logikk
-def calc(d, n, v):
-    diameterpris = prisliste_dict[d]
-    if n == 1:
-        x = diameterpris
-    else:
-        x = diameterpris + (n - 1) * diameterpris * 0.5
-    y = diameterpris * vanskelighet_dict[v]
-    return x + y
-
-def calculate_distance(destination, origin=ORIGIN):
-    #kjøreavstand
-    directions_result = gmaps.directions(origin,
-                                         destination,
-                                         mode="driving",
-                                         departure_time=datetime.now())
-    #avstand variabler
-    distance_text = directions_result[0]['legs'][0]['distance']['text']
-    distance_val = directions_result[0]['legs'][0]['distance']['value']
-    duration = directions_result[0]['legs'][0]['duration']['text']
-
-    return distance_text, distance_val, duration
-
-
-def final_dist_cost(destination):
-    distance ,distance_val, duration = calculate_distance(destination)
-    final_cost = (distance_val/1000) * 100     
-    return final_cost, distance
 
 def calculate_price(address, postnr, diameter, num_stumps, difficulty):
     final_address = address + ', ' + postnr
-    diameter = int(diameter)
-    num_stumps = int(num_stumps)
-    result_1 = calc(diameter, num_stumps, difficulty)
-    dist_cost, distance = final_dist_cost(final_address)
-    result = result_1 + dist_cost
-    return result, result_1, dist_cost, distance
+    calculator.calc(int(diameter), int(num_stumps), difficulty)
+    distanse ,_ ,_ = calculator.distance_calc(final_address) # _, _ = distanse_variabel og estimert tid (muligens brukbart senere) 
+    jobb_kostnad = calculator.result_job
+    kjore_kostnad = calculator.result_vei
+    result = jobb_kostnad + kjore_kostnad
+    return result, jobb_kostnad, kjore_kostnad, distanse
 
 
 @app.route('/', methods=['GET'])
 def index():
-    diameters = list(prisliste_dict.keys())
-    diffclts = list(vanskelighet_dict.keys())
+    diameters = list(calculator.prisliste_dict.keys())
+    diffclts = list(calculator.vanskelighet_dict.keys())
     return render_template('index.html', diameters=diameters, diffclts=diffclts)
 
 @app.route('/calculate', methods=['POST'])
@@ -74,10 +35,9 @@ def calculate_price_ajax():
     num_stumps = request.form['num_stumps']
     difficulty = request.form['difficulty']
 
-    result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
+    result, jobb_kostnad, kjore_kostnad, distanse = calculate_price(address, postnr, diameter, num_stumps, difficulty)
 
-    return jsonify(price=result, result_1=result_1, dist_cost=dist_cost, distance=distance)
-
+    return jsonify(price=result, result_1=jobb_kostnad, dist_cost=kjore_kostnad, distance=distanse)
 
 
 @app.route('/send_email', methods=['POST'])
@@ -95,31 +55,9 @@ def send_email():
     difficulty = data['difficulty']
 
     result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
-
+    body = calculator.create_email_body(data, result, result_1, dist_cost, distance)
     subject = "Stubbefresing"
-    body = f"""
-    Hei {name},
-
-    Her er informasjonen om din forespørsel:
-    Fornavn: {name}
-    Etternavn: {ename}
-    Email: {email}
-    Telefon: {phone}
-    Gateadresse: {address}
-    Postnummer: {postnr}
-    Diameter: {diameter} cm
-    Antall stubber: {num_stumps}
-    Tilkomst: {difficulty}
-    Stubbefresing kost totalt: {result_1} Kr
-    Transportkostnad: {dist_cost} Kr
-    Kjørelengde: {distance}
-    Estimert totalpris: {result} Kr
-
-    Takk for at du bruker vår priskalkulator!
-
-    Med vennlig hilsen,
-    Norsk Trefelling
-    """
+    
 
     email_message = f"Subject: {subject}\n\n{body}".encode('utf-8')
 
