@@ -12,6 +12,19 @@ calculator = Calculator()
 
 
 def calculate_price(address, postnr, diameter, num_stumps, difficulty):
+    """
+    Beregner den totale kostnaden for stubbefresing inkludert transportkostnad.
+
+    Parametere:
+    address (str): Gateadresse for hvor stubbene skal fjernes.
+    postnr (str): Postnummeret til adressen.
+    diameter (str): Diameteren på stubben i cm.
+    num_stumps (str): Antall stubber som skal fjernes.
+    difficulty (str): Vanskelighetsgraden på tilkomsten (Enkel, Vanskelig, Trapp, Bratt).
+
+    Returnerer:
+    tuple: En tuple bestående av total kostnad (float), jobb kostnad (float), kjøre kostnad (float), og distanse tekst (str).
+    """
     final_address = address + ', ' + postnr
     calculator.calc(int(diameter), int(num_stumps), difficulty)
     distanse ,_ ,_ = calculator.distance_calc(final_address) # _, _ = distanse_variabel og estimert tid (muligens brukbart senere) 
