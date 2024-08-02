@@ -5,7 +5,7 @@ from calc import Calculator
 
 EMAIL_PROVIDER_SMTP_ADDRESS = "smtp.gmail.com"
 MY_EMAIL = 'Trefg.app@gmail.com'
-MY_PASSWORD = 'rbwy acsp chgr buuw'
+MY_PASSWORD = 'vffl lhwv iogl novp'
 
 app = Flask(__name__)
 calculator = Calculator()
