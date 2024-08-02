@@ -29,10 +29,10 @@ def calculate_price(address, postnr, diameter, num_stumps, difficulty):
     calculator.calc(int(diameter), int(num_stumps), difficulty)
     distanse ,_ ,_ = calculator.distance_calc(final_address) # _, _ = distanse_variabel og estimert tid (muligens brukbart senere) 
     jobb_kostnad = calculator.result_job
-    if postnr in calculator.postnr:
-        kjore_kostnad = calculator.result_vei * 0.5 #hvis postnummeret er i den oppgitte listen halveres kjørekostnaden.
+    if int(postnr) in calculator.postnr:
+        kjore_kostnad = round(calculator.result_vei * 0.5) #hvis postnummeret er i den oppgitte listen halveres kjørekostnaden.ç
     else:
-        kjore_kostnad = calculator.result_vei
+        kjore_kostnad = round(calculator.result_vei)
     result = jobb_kostnad + kjore_kostnad
     return result, jobb_kostnad, kjore_kostnad, distanse
 

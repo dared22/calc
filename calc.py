@@ -24,6 +24,7 @@ class Calculator:
         self.vanskelighet_dict = {"Enkel": 0, "Vanskelig": 0.7, "Trapp": 0.7, "Bratt": 0.7}
         self.result_job = 0
         self.result_vei = 0
+        self.postnr = [1433, 1444, 1445, 1446, 1447]
         with open('prisliste_data.pkl', 'rb') as f:
             self.prisliste_dict = pickle.load(f)
 
