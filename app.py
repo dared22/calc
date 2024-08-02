@@ -4,8 +4,8 @@ import smtplib
 from calc import Calculator
 
 EMAIL_PROVIDER_SMTP_ADDRESS = "smtp.gmail.com"
-MY_EMAIL = 'p.13.gulin@gmail.com'
-MY_PASSWORD = 'nycr bvgj ikxd zekc'
+MY_EMAIL = 'Trefg.app@gmail.com'
+MY_PASSWORD = 'rbwy acsp chgr buuw'
 
 app = Flask(__name__)
 calculator = Calculator()
@@ -29,7 +29,10 @@ def calculate_price(address, postnr, diameter, num_stumps, difficulty):
     calculator.calc(int(diameter), int(num_stumps), difficulty)
     distanse ,_ ,_ = calculator.distance_calc(final_address) # _, _ = distanse_variabel og estimert tid (muligens brukbart senere) 
     jobb_kostnad = calculator.result_job
-    kjore_kostnad = calculator.result_vei
+    if postnr in calculator.postnr:
+        kjore_kostnad = calculator.result_vei * 0.5 #hvis postnummeret er i den oppgitte listen halveres kjørekostnaden.
+    else:
+        kjore_kostnad = calculator.result_vei
     result = jobb_kostnad + kjore_kostnad
     return result, jobb_kostnad, kjore_kostnad, distanse
 
