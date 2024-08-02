@@ -73,6 +73,8 @@ class Calculator:
 
         return distance_text, distance_val, duration
     
+
+    @staticmethod
     def create_email_body(data, result, result_1, dist_cost, distance):
         """
         Lager innholdet til en e-post basert på beregningsdata og brukerinput.
