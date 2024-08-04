@@ -1,6 +1,7 @@
 import pickle
 import googlemaps
 from datetime import datetime
+import pandas as pd
 
 API_KEY = 'AIzaSyD52GY-dsG6mjbXSukZIsmuOxE2w3X80iQ'
 ORIGIN = 'Tåsenveien 127, 0880'
@@ -24,7 +25,8 @@ class Calculator:
         self.vanskelighet_dict = {"Enkel": 0, "Vanskelig": 0.7, "Trapp": 0.7, "Bratt": 0.7}
         self.result_job = 0
         self.result_vei = 0
-        self.postnr = [1433, 1444, 1445, 1446, 1447]
+        df = pd.read_excel('addrs.xlsx')
+        self.postnr = list(df[1])
         with open('prisliste_data.pkl', 'rb') as f:
             self.prisliste_dict = pickle.load(f)
 
