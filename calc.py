@@ -25,8 +25,8 @@ class Calculator:
         self.vanskelighet_dict = {"Enkel": 0, "Vanskelig": 0.7, "Trapp": 0.7, "Bratt": 0.7}
         self.result_job = 0
         self.result_vei = 0
-        df = pd.read_excel('addrs.xlsx')
-        self.postnr = list(df[1])
+        df = pd.read_excel('postnummer.xlsx')
+        self.postnr = list(df['Unnamed: 3'][2:])
         with open('prisliste_data.pkl', 'rb') as f:
             self.prisliste_dict = pickle.load(f)
 
