@@ -73,9 +73,9 @@ def send_email():
     num_stumps = data['num_stumps']
     difficulty = data['difficulty']
 
-    #result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
-    print(postnr, address)
-    #body = calculator.create_email_body(data, result, result_1, dist_cost, distance)
+    result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
+
+    body = calculator.create_email_body(data, result, result_1, dist_cost, distance)
     subject = "Stubbefresing"
     
 
