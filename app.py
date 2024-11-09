@@ -27,7 +27,8 @@ def calculate_price(address, postnr, diameter, num_stumps, difficulty):
     Returnerer:
     tuple: En tuple bestående av total kostnad (float), jobb kostnad (float), kjøre kostnad (float), og distanse tekst (str).
     """
-    final_address = address + ', ' + postnr
+    country = "Norway"
+    final_address = address + ', ' + postnr + ', ' + country
     calculator.calc(int(diameter), int(num_stumps), difficulty)
     distanse ,_ ,_ = calculator.distance_calc(final_address) # _, _ = distanse_variabel og estimert tid (muligens brukbart senere) 
     jobb_kostnad = calculator.result_job
@@ -72,8 +73,9 @@ def send_email():
     num_stumps = data['num_stumps']
     difficulty = data['difficulty']
 
-    result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
-    body = calculator.create_email_body(data, result, result_1, dist_cost, distance)
+    #result, result_1, dist_cost, distance = calculate_price(address, postnr, diameter, num_stumps, difficulty)
+    print(postnr, address)
+    #body = calculator.create_email_body(data, result, result_1, dist_cost, distance)
     subject = "Stubbefresing"
     
 

@@ -72,7 +72,6 @@ class Calculator:
         distance_val = directions_result[0]['legs'][0]['distance']['value']
         duration = directions_result[0]['legs'][0]['duration']['text'] #brukes ikke foreløpig (estimert tid)
         self.result_vei = (distance_val/1000) * 100 
-
         return distance_text, distance_val, duration
     
 
